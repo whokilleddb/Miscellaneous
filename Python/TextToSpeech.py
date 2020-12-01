@@ -1,18 +1,18 @@
 #!/usr/bin/python3
-import io
-import pygame
+from playsound import playsound
 from gtts import gTTS
+import os
+
+def cleanUP(filename):
+	if os.path.exists(filename):
+		os.remove(filename)
 
 def bokBOK(stuffToSpeak):
-    with io.BytesIO() as f : #Produce Bytes Object
-        gTTS(text=stuffToSpeak, lang ='en').write_to_fp(f)
-        f.seek(0) #sets the file's current position at the offset ; here refernce point is set at the beginning of the file
-        pygame.mixer.init()
-        pygame.mixer.music.load(f)
-        pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
-            continue
-        
+	cleanUP("TxtToVoice.mp3")
+	toSpeak=gTTS(text=stuffToSpeak, lang ='en')
+	toSpeak.save("TxtToVoice.mp3") #sets the file's current position at the offset ; here refernce point is set at the beginning of the file
+	playsound("TxtToVoice.mp3")
+
 if __name__ == '__main__' :
     print("[+] Text To Speech Converter")
     txt=input("[+] Enter Text : ")
